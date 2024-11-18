@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Recommendation System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #87CEFA;
+            color: #333333;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            font-family: 'Arial', sans-serif;
+            color: #333333;
+        }
+        .container {
+            max-width: 600px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .card {
+            border: 1px solid #e0e0e0;
+        }
+        .card-title {
+            color: #007bff;
+        }
+        .card-subtitle {
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Book Recommendation System</h1>
+        <form id="recommendation-form" class="mt-4">
+            <div class="form-group">
+                <label for="title">Book Title</label>
+                <input type="text" class="form-control" id="title" placeholder="Enter book title" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Get Recommendations</button>
+        </form>
+        <div id="recommendations" class="mt-4"></div>
+    </div>
+
+    <script>
+        document.getElementById('recommendation-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const title = document.getElementById('title').value;
+            fetch('/recommend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title: title })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const recommendationsDiv = document.getElementById('recommendations');
+                recommendationsDiv.innerHTML = '<h3>Recommendations:</h3>';
+                data.forEach(book => {
+                    const bookDiv = document.createElement('div');
+                    bookDiv.classList.add('card', 'mt-2');
+                    bookDiv.innerHTML = `
+                        <div class="card-body">
+                            <h5 class="card-title">${book.Title}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">${book.Authors}</h6>
+                        </div>
+                    `;
+                    recommendationsDiv.appendChild(bookDiv);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
