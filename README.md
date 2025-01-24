@@ -24,16 +24,6 @@ TF-IDF is used to represent book descriptions as feature vectors. It highlights 
 
 KNN is employed to find books similar to the input title. It identifies the top k most similar books based on their feature vectors.
 
-How to Use
-
-Clone the repository:
-
-git clone https://github.com/your-username/book-recommender-system.git
-cd book-recommender-system
-
-Install the required dependencies:
-
-pip install -r requirements.txt
 
 Run the application:
 
